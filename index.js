@@ -12,26 +12,29 @@ const galleryEl = document.querySelector('.js-gallery');
 const lightboxEl = document.querySelector('.js-lightbox');
 const lightboxImageEl = document.querySelector('.lightbox__image');
 const buttonCloseModal = document.querySelector('[data-action="close-lightbox"]');
+const overlay = document.querySelector('.lightbox__overlay')
+
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryEl.innerHTML = galleryMarkup
  
-galleryEl.addEventListener('click', onImageClick)
+galleryEl.addEventListener('click', onImageClick);
+buttonCloseModal.addEventListener('click', onButtonCloseModalClick);
 
-buttonCloseModal.addEventListener('click', onButtonCloseModalClick)
 
 function createGalleryMarkup(galleryItems) {
-    return galleryItems.map(({preview,original,description}) => {
+    return galleryItems.map((elem) => {
         return `<li class="gallery__item">
   <a
     class="gallery__link"
-    href="${original}"
+    href="${elem.original}"
   >
     <img
       class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
+      src="${elem.preview}"
+      data-source="${elem.original}"
+      data-index ='${galleryItems.indexOf(elem)}'
+      alt="${elem.description}"
     />
   </a>
 </li>`
@@ -47,12 +50,19 @@ function onImageClick(event) {
 
     const urlSelectedImage = event.target.dataset.source;
     const altSelectedImage = event.target.alt;
+    // const indexSelectedImage = event.target.dataset.index;
+    // console.log(indexSelectedImage);
  
     lightboxEl.classList.add("is-open");
 
     lightboxImageEl.src = urlSelectedImage;
     lightboxImageEl.alt = altSelectedImage;
-}
+   
+
+    overlay.addEventListener('click', onOverlayClick);
+    window.addEventListener('keydown', onEscKeyDown);
+      
+ }
 
 function onButtonCloseModalClick(event) {
     lightboxEl.classList.remove("is-open");
@@ -60,7 +70,17 @@ function onButtonCloseModalClick(event) {
     lightboxImageEl.alt = '';
 }
 
+function onOverlayClick(event) {
+  if (event.currentTarget === event.target) {
+    onButtonCloseModalClick();
+    }
+}
 
+function onEscKeyDown(event) {
+  if (event.code === 'Escape') {
+    onButtonCloseModalClick();
+    }
+}
 
 
 
