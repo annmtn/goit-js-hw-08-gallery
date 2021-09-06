@@ -4,9 +4,8 @@ import {galleryItems} from './app.js'
 //galleryItems из app.js и предоставленному шаблону.
 
 const galleryEl = document.querySelector('.js-gallery');
-console.log(galleryEl);
-const lightboxEl = document.querySelector('.js-lightbox')
-console.log(lightboxEl);
+const lightboxEl = document.querySelector('.js-lightbox');
+const lightboxImageEl = document.querySelector('.lightbox__image');
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryEl.innerHTML = galleryMarkup
@@ -34,6 +33,8 @@ function createGalleryMarkup(galleryItems) {
 
 // Открытие модального окна по клику на элементе галереи.
 
+// Подмена значения атрибута src элемента img.lightbox__image.
+
 galleryEl.addEventListener('click', onImageClick)
 
 function onImageClick(event) {
@@ -43,14 +44,15 @@ function onImageClick(event) {
         return
     }
 
-    const urlImage = event.target.dataset.source;
-    console.log(urlImage);
+    const urlSelectedImage = event.target.dataset.source;
+    const altSelectedImage = event.target.alt;
+ 
+    lightboxEl.classList.add("is-open");
 
-    lightboxEl.classList.add("is-open")
-
+    lightboxImageEl.src = urlSelectedImage;
+    lightboxImageEl.alt = altSelectedImage;
 }
 
-// Подмена значения атрибута src элемента img.lightbox__image.
 
 // Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
 
