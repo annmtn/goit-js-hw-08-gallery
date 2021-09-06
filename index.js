@@ -1,7 +1,12 @@
 import {galleryItems} from './app.js'
 
-// Создание и рендер разметки по массиву данных 
-//galleryItems из app.js и предоставленному шаблону.
+// Создание и рендер разметки по массиву данных galleryItems из app.js и предоставленному шаблону.
+// Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
+// Открытие модального окна по клику на элементе галереи.
+// Подмена значения атрибута src элемента img.lightbox__image.
+// Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
+// Очистка значения атрибута src элемента img.lightbox__image.Это необходимо для того, чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
+
 
 const galleryEl = document.querySelector('.js-gallery');
 const lightboxEl = document.querySelector('.js-lightbox');
@@ -10,7 +15,11 @@ const buttonCloseModal = document.querySelector('[data-action="close-lightbox"]'
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryEl.innerHTML = galleryMarkup
-  
+ 
+galleryEl.addEventListener('click', onImageClick)
+
+buttonCloseModal.addEventListener('click', onButtonCloseModalClick)
+
 function createGalleryMarkup(galleryItems) {
     return galleryItems.map(({preview,original,description}) => {
         return `<li class="gallery__item">
@@ -29,15 +38,6 @@ function createGalleryMarkup(galleryItems) {
     }).join('')
 }
   
-// Реализация делегирования на галерее ul.js-gallery и получение url 
-//большого изображения.
-
-// Открытие модального окна по клику на элементе галереи.
-
-// Подмена значения атрибута src элемента img.lightbox__image.
-
-galleryEl.addEventListener('click', onImageClick)
-
 function onImageClick(event) {
     event.preventDefault();
 
@@ -53,13 +53,6 @@ function onImageClick(event) {
     lightboxImageEl.src = urlSelectedImage;
     lightboxImageEl.alt = altSelectedImage;
 }
-
-// Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
-// Очистка значения атрибута src элемента img.lightbox__image.
-//Это необходимо для того, чтобы при следующем открытии модального окна, 
-//пока грузится изображение, мы не видели предыдущее.
-
-buttonCloseModal.addEventListener('click', onButtonCloseModalClick)
 
 function onButtonCloseModalClick(event) {
     lightboxEl.classList.remove("is-open");
