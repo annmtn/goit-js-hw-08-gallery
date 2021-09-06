@@ -5,6 +5,9 @@ import {galleryItems} from './app.js'
 
 const galleryEl = document.querySelector('.js-gallery');
 console.log(galleryEl);
+const lightboxEl = document.querySelector('.js-lightbox')
+console.log(lightboxEl);
+
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryEl.innerHTML = galleryMarkup
   
@@ -25,14 +28,27 @@ function createGalleryMarkup(galleryItems) {
 </li>`
     }).join('')
 }
-    
-
-
-
+  
 // Реализация делегирования на галерее ul.js-gallery и получение url 
 //большого изображения.
 
 // Открытие модального окна по клику на элементе галереи.
+
+galleryEl.addEventListener('click', onImageClick)
+
+function onImageClick(event) {
+    event.preventDefault();
+
+    if (event.target.nodeName !== "IMG") {
+        return
+    }
+
+    const urlImage = event.target.dataset.source;
+    console.log(urlImage);
+
+    lightboxEl.classList.add("is-open")
+
+}
 
 // Подмена значения атрибута src элемента img.lightbox__image.
 
