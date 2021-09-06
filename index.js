@@ -6,6 +6,7 @@ import {galleryItems} from './app.js'
 const galleryEl = document.querySelector('.js-gallery');
 const lightboxEl = document.querySelector('.js-lightbox');
 const lightboxImageEl = document.querySelector('.lightbox__image');
+const buttonCloseModal = document.querySelector('[data-action="close-lightbox"]');
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryEl.innerHTML = galleryMarkup
@@ -53,11 +54,21 @@ function onImageClick(event) {
     lightboxImageEl.alt = altSelectedImage;
 }
 
-
 // Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
-
 // Очистка значения атрибута src элемента img.lightbox__image.
 //Это необходимо для того, чтобы при следующем открытии модального окна, 
 //пока грузится изображение, мы не видели предыдущее.
+
+buttonCloseModal.addEventListener('click', onButtonCloseModalClick)
+
+function onButtonCloseModalClick(event) {
+    lightboxEl.classList.remove("is-open");
+    lightboxImageEl.src = '';
+    lightboxImageEl.alt = '';
+}
+
+
+
+
 
 
