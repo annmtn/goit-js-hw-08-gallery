@@ -50,8 +50,6 @@ function onImageClick(event) {
 
     const urlSelectedImage = event.target.dataset.source;
     const altSelectedImage = event.target.alt;
-    // const indexSelectedImage = event.target.dataset.index;
-    // console.log(indexSelectedImage);
  
     lightboxEl.classList.add("is-open");
 
@@ -61,13 +59,14 @@ function onImageClick(event) {
 
     overlay.addEventListener('click', onOverlayClick);
     window.addEventListener('keydown', onEscKeyDown);
-      
+    
  }
 
 function onButtonCloseModalClick(event) {
     lightboxEl.classList.remove("is-open");
     lightboxImageEl.src = '';
     lightboxImageEl.alt = '';
+    window.removeEventListener('keydown', onEscKeyDown);
 }
 
 function onOverlayClick(event) {
